@@ -7,3 +7,5 @@
 - no leaks*
 - no ads
 - smooth clock arrow rotation
+
+The [DS-Digital](https://www.dafont.com/ds-digital.font) font is used for digits
