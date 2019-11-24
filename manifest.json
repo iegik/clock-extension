@@ -1,7 +1,8 @@
 {
-  "name": "Clock",
+  "name": "clock-extension",
+  "short_name": "Clock on new tab",
   "version": "1.0",
-  "description": "Clock on new tab",
+  "description": "Replaces chrome://newtab with analogue clock",
   "manifest_version": 2,
   "chrome_url_overrides" : {
     "newtab": "background.html"
