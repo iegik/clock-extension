@@ -40,9 +40,13 @@
       marginLeft: `calc(100% - 2.5ex)`,
       color: 'rgba(127,127,127,0.2)',
       fontFamily: 'DS-Digital, monospace',
-      fontSize: `8vh`,
+      fontDisplay: 'swap',
+      fontSize: `3vh`,
       width: `100%`,
-      //textAlign: 'center'
+      backgroundClip: 'text',
+      textShadow: `rgba(70,180,70,0.5) 0px 0.01em 0.01em,
+        rgba(70,180,70,0.5) 0px 0.02em 0.05em,
+        rgba(70,180,70,0.5) 0px 0.04em 0.15em`,
   });
 
   const createArrow = ({ element, offset, length, width, color, baseSize }) => {
