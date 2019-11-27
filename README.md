@@ -1,5 +1,5 @@
-![](docs/screenshot.png)
-![](docs/screenshot1.png)
+![](screenshot.png)
+![](screenshot1.png)
 
 - replaces [chrome://newtab]()
 - night mode 22:00-10:00
