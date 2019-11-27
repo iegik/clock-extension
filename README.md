@@ -1,3 +1,6 @@
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/gmhgmhcpllcnkdcanccmglkfifiakfma)](https://chrome.google.com/webstore/detail/clock-extension/gmhgmhcpllcnkdcanccmglkfifiakfma)
+[![Mozilla Add-on](https://img.shields.io/amo/v/clock-extension)](https://addons.mozilla.org/en-US/firefox/addon/clock-extension/)
+
 ![](screenshot.png)
 ![](screenshot1.png)
 
