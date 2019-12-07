@@ -3,7 +3,13 @@
 
 [demo](src/background.html)
 
+**Day**
+![](screenshot2.png)
+
+**Night**
 ![](screenshot.png)
+
+**Dark theme**
 ![](screenshot1.png)
 
 - replaces [chrome://newtab]()
@@ -13,5 +19,9 @@
 - no leaks*
 - no ads
 - smooth clock arrow rotation
+
+**In progress**
+
+Digital clock switch
 
 The [DS-Digital](https://www.dafont.com/ds-digital.font) font is used for digits
