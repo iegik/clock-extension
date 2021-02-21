@@ -12,16 +12,16 @@
 **Dark theme**
 ![](screenshot1.png)
 
+**Options**
+![](screenshot3.png)
+
 - replaces [chrome://newtab]()
 - night mode 22:00-10:00
-- dark / light theme
+- support systems dark / light theme switch
 - 400x400px
 - no leaks*
 - no ads
 - smooth clock arrow rotation
-
-**In progress**
-
-Digital clock switch
+- customizable
 
 The [DS-Digital](https://www.dafont.com/ds-digital.font) font is used for digits

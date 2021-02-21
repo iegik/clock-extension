@@ -1,90 +1,58 @@
-(() => {
+(async () => {
     const isNightMode = () => {
         const now = (new Date).getHours();
 
         return (now >= 22 || now < 10);
     }
 
-    const size = 400;
-    // const color = 'rgba(127,127,127,0.5)'; // gray
-    // const color = 'rgb(230, 223, 139, 0.8)'; // gold
-    // const color = 'rgb(127, 200, 127, 0.5)'; // green
-    let started = true;
-    const fonts = [
-        'Digital-7 Mono, digital, monospace',
-        'DS-Digital, digital, sans-serif',
-        'Elektra, digital, sans-serif',
-    ];
-    const colors = [
-        'rgb(200, 127, 127, 0.5)',
-        'rgba(127,127,127,0.5)',
-        'rgba(70,180,70,0.5)',
-        'rgba(127,127,127,0.2)',
-    ];
-    const options = {
-        isDigital: false,
-        fontFamily: fonts[0],
-        nightModeColor: colors[0],
-        dayModeColor: colors[1],
+    const memoize = (fn) => {
+        const cache = new Map();
+
+        return (arg) => {
+            if(cache.get(arg)) return cache.get(arg);
+            return cache.set(arg, fn(arg)).get(arg);
+        }
     }
 
-    const { isDigital, nightModeColor, dayModeColor, fontFamily } = options;
+    const calculateHours = memoize(hours => `rotate(${360 / 12 * hours - 90}deg)`);
+    const calculateMinutes = memoize(minutes => `rotate(${360 / 60 * minutes - 90}deg)`);
+    const calculateSeconds = memoize(seconds => `rotate(${360 / 60 * seconds - 90}deg)`);
 
-    let drawer;
-    if (isDigital) {
-        const color = isNightMode()
-            ? nightModeColor
-            : dayModeColor;
-        const digitalTime = document.createElement('div');
-        Object.assign(digitalTime.style, {
-            // position: 'absolute',
-            // top: `calc(60vh - ${size/2}px)`,
-            // left: `-50%`,
-            // marginLeft: `calc(100% - 2.5ex)`,
-            color,
-            fontFamily,
-            fontDisplay: 'swap',
-            fontSize: `15vw`,
-            width: `100%`,
-            // backgroundClip: 'text',
-            // textShadow: `rgba(70,180,70,0.5) 0px 0.01em 0.01em,
-            //     rgba(70,180,70,0.5) 0px 0.02em 0.05em,
-            //     rgba(70,180,70,0.5) 0px 0.04em 0.15em`,
-        });
+    const DigitalClock = {
+        constructor({ color, fontFamily, showMilliseconds }) {
+            this.element = document.createElement('div');
+            this.showMilliseconds = showMilliseconds;
+            Object.assign(this.element.style, {
+                color,
+                fontFamily,
+                fontDisplay: 'swap',
+                fontSize: `15vw`,
+                width: showMilliseconds ? `70vw` : `50vw`,
+                backgroundClip: 'text',
+                textShadow: `${color} 0px 0.01em 0.01em,
+                    ${color} 0px 0.02em 0.05em,
+                    ${color} 0px 0.04em 0.15em`,
+            });
 
-        const changeDigitalTime = time => {
-            digitalTime.innerText = time;
-        }
-
-        const drawDigitalTime = () => {
+            return this;
+        },
+        draw() {
             const now = new Date();
-            // const milliseconds = now.getMilliseconds();
-            // const time = `${now.toLocaleTimeString()}:${milliseconds}`;
-            const time = now.toLocaleTimeString();
-            changeDigitalTime(time);
-        }
-
-        drawer = drawDigitalTime;
-        document.body.appendChild(digitalTime);
-    } else {
-        const color = isNightMode()
-            ? 'rgb(200, 127, 127, 0.5)'
-            : 'rgba(127,127,127,0.5)';
-        const clock = document.createElement('div');
-        const hoursArrow = document.createElement('div');
-        const minutesArrow = document.createElement('div');
-        const secondsArrow = document.createElement('div');
-
-        const memoize = (fn) => {
-            const cache = new Map();
-
-            return (arg) => {
-                if(cache.get(arg)) return cache.get(arg);
-                return cache.set(arg, fn(arg)).get(arg);
+            let time;
+            if (this.showMilliseconds) {
+                time = `${now.toLocaleTimeString()}:${now.getMilliseconds()}`;
+            } else {
+                time = now.toLocaleTimeString();
             }
-        }
+            this.update(time);
+        },
+        update(time) {
+            this.element.innerText = time;
+        },
+    }
 
-        const createArrow = ({ element, offset, length, width, color, baseSize }) => {
+    const AnalogueClock = {
+        createArrow({ element, offset, length, width, color, baseSize }) {
             Object.assign(element.style, {
                 backgroundImage: `linear-gradient(90deg,
                     rgba(0,0,0,0) 0%,
@@ -99,111 +67,147 @@
                 top: `${Math.round((baseSize - baseSize * width)/2)}px`,
                 transformOrigin: `center center`,
             });
-        }
+        },
+        constructor({ color, size, showMilliseconds }) {
+            this.element = document.createElement('div');
+            this.hoursArrow = document.createElement('div');
+            this.minutesArrow = document.createElement('div');
+            this.secondsArrow = document.createElement('div');
+            this.showMilliseconds = showMilliseconds;
 
-        const changeArrow = (arrow, value) => {
-            if (arrow.style.transform === value) return;
-            arrow.style.transform = value;
-        }
+            const { element, hoursArrow, minutesArrow, secondsArrow, createArrow } = this;
 
-        Object.assign(clock.style, {
-            position: 'relative',
-            //background: `${color}`,
-            borderRadius: `50%`,
-            //border: `${color} solid ${Math.round(size * 0.02)}px`,
-            width: `${size}px`,
-            height: `${size}px`,
-            // top: `calc(50vh - ${size/2}px)`,
-            // left: `calc(50vw - ${size/2}px)`,
-        });
+            Object.assign(element.style, {
+                position: 'relative',
+                borderRadius: `50%`,
+                width: `${size}px`,
+                height: `${size}px`,
+            });
 
-        createArrow({
-            element: hoursArrow,
-            offset: 0.45,
-            length: 0.25,
-            width: 0.015,
-            color,
-            baseSize: size
-        });
-
-        createArrow({
-            element: minutesArrow,
-            offset: 0.45,
-            length: 0.40,
-            width: 0.01,
-            color,
-            baseSize: size
-        });
-
-        createArrow({
-            element: secondsArrow,
-            offset: 0.45,
-            length: 0.50,
-            width: 0.005,
-            color,
-            baseSize: size
-        });
-
-        for (let deg = 0; deg < 360; deg += 30) {
-            const hourDot = document.createElement('div');
             createArrow({
-                element: hourDot,
-                offset: 0,
-                length: 0.01,
+                element: hoursArrow,
+                offset: 0.45,
+                length: 0.25,
+                width: 0.015,
+                color,
+                baseSize: size
+            });
+
+            createArrow({
+                element: minutesArrow,
+                offset: 0.45,
+                length: 0.40,
                 width: 0.01,
                 color,
                 baseSize: size
             });
-            hourDot.style.transform = `rotate(${deg - 90}deg)`;
-            clock.appendChild(hourDot);
-        }
 
-        for (let deg = 0; deg < 360; deg += 6) {
-            if (deg % 30 === 0) continue;
-            const hourDot = document.createElement('div');
             createArrow({
-                element: hourDot,
-                offset: 0,
-                length: 0.005,
+                element: secondsArrow,
+                offset: 0.45,
+                length: 0.50,
                 width: 0.005,
                 color,
                 baseSize: size
             });
-            hourDot.style.transform = `rotate(${deg - 90}deg)`;
-            clock.appendChild(hourDot);
-        }
 
-        const calculateHours = memoize(hours => `rotate(${360 / 12 * hours - 90}deg)`);
-        const calculateMinutes = memoize(minutes => `rotate(${360 / 60 * minutes - 90}deg)`);
-        const calculateSeconds = memoize(seconds => `rotate(${360 / 60 * seconds - 90}deg)`);
+            for (let deg = 0; deg < 360; deg += 30) {
+                const hourDot = document.createElement('div');
+                createArrow({
+                    element: hourDot,
+                    offset: 0,
+                    length: 0.01,
+                    width: 0.01,
+                    color,
+                    baseSize: size
+                });
+                hourDot.style.transform = `rotate(${deg - 90}deg)`;
+                element.appendChild(hourDot);
+            }
 
-        const drawAnalogueTime = () => {
+            for (let deg = 0; deg < 360; deg += 6) {
+                if (deg % 30 === 0) continue;
+                const hourDot = document.createElement('div');
+                createArrow({
+                    element: hourDot,
+                    offset: 0,
+                    length: 0.005,
+                    width: 0.005,
+                    color,
+                    baseSize: size
+                });
+                hourDot.style.transform = `rotate(${deg - 90}deg)`;
+                element.appendChild(hourDot);
+            }
+
+            element.appendChild(hoursArrow);
+            element.appendChild(minutesArrow);
+            element.appendChild(secondsArrow);
+
+            return this;
+        },
+        draw() {
             const now = new Date();
             const milliseconds = now.getMilliseconds();
             const seconds = now.getSeconds() + milliseconds * 0.001;
             const minutes = now.getMinutes() + 0.017 *  seconds;
             const hours = now.getHours() + 0.017 * minutes;
 
-            changeArrow(hoursArrow, calculateHours(hours))
-            changeArrow(minutesArrow, calculateMinutes(minutes))
-            changeArrow(secondsArrow, calculateSeconds(seconds))
-        }
-
-        drawer = drawAnalogueTime;
-        clock.appendChild(hoursArrow);
-        clock.appendChild(minutesArrow);
-        clock.appendChild(secondsArrow);
-        document.body.appendChild(clock);
+            this.update(calculateHours(hours), calculateMinutes(minutes), calculateSeconds(seconds))
+        },
+        update(hours, minutes, seconds) {
+            const { hoursArrow, minutesArrow, secondsArrow } = this;
+            this.updateArrow(hoursArrow, hours)
+            this.updateArrow(minutesArrow, minutes)
+            this.updateArrow(secondsArrow, seconds)
+        },
+        updateArrow(arrow, value) {
+            if (arrow.style.transform === value) return;
+            arrow.style.transform = value;
+        },
     }
+
+    let options = await new Promise((resolve, reject) => chrome.storage.sync.get({
+        typeOfClock: 'analogue',
+        fontFamily: 'Digital-7 Mono, digital, monospace',
+        nightModeColor: '#c87f7f',
+        dayModeColor: '#7f7f7f',
+        opacity: 0.5,
+        interval: 70, // milliseconds to draw seconds arrow
+        size: 400, // diameter of analogue clock
+        showMilliseconds: true,
+    }, resolve));
+
+    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, interval, size, opacity, showMilliseconds } = options;
+
+    const color = isNightMode()
+        ? nightModeColor + Math.round(255 * opacity).toString(16)
+        : dayModeColor + Math.round(255 * opacity).toString(16);
+
+    let started = true;
+    const clock = typeOfClock === 'digital'
+        ? DigitalClock.constructor({ color, fontFamily, showMilliseconds })
+        : AnalogueClock.constructor({ color, size });
+
+    document.body.appendChild(clock.element);
+
+    const start = document.timeline.currentTime;
+    const requestAnimationFrame1 = () => requestAnimationFrame(frame)
+    const frame = (time) => {
+        const elapsed = time - start;
+        const moment = Math.round(elapsed / interval);
+        clock.draw(moment);
+        const targetNext = (moment + 1) * interval + start;
+        started && setTimeout(requestAnimationFrame1, targetNext - performance.now());
+    }
+
+    frame(start)
 
     document.body.addEventListener('click', () => {
         started = !started;
-        started && draw();
+        started && frame();
     });
-
-    const draw = () => {
-        drawer();
-        started && requestAnimationFrame(draw);
-    }
-    draw();
-})();
+    document.addEventListener("visibilitychange", (event) => {
+        started = event.target.visibilityState === 'visible';
+    });
+})()

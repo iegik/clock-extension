@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clock Preferences</title>
+    <style>
+      :root {
+        --text-color: #3367d6;
+        --cr-link-color: #3367d6;
+        --cr-primary-text-color: #292a2d;
+        --cr-secondary-text-color: #9aa0a6;
+        --cr-card-background-color: #ffffff;
+        --cr-separator-color: rgba(127, 127, 127, 0.25);
+        --border-color: rgba(127, 127, 127, 0.5);
+        --bg-action: #3367d6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --text-color: #8ab4f8;
+          --cr-link-color: #8ab4f8;
+          --cr-primary-text-color: #e8eaed;
+          --cr-card-background-color: #292a2d;
+          --bg-action: #8ab4f8;
+        }
+      }
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      body,
+      select,
+      input,
+      button {
+        color: var(--cr-primary-text-color);
+        background-color: var(--cr-card-background-color);
+        border-radius: 3px;
+        font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+        place-self: center;
+      }
+      a {
+        color: var(--text-color)
+      }
+      .panel-formElements-item {
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid var(--cr-separator-color);
+        line-height: 1.54;
+        display: grid;
+        grid-template-columns: 1fr auto;
+      }
+      .panel-formElements-item-label-description {
+        display: block;
+        color: var(--cr-secondary-text-color);
+      }
+      .panel-section-footer {
+        padding: 0.5rem 1rem;
+        line-height: 2rem;
+        display: flex;
+        place-content: flex-end;
+        gap: 0.5rem;
+      }
+      .panel-section-footer-status {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        display: grid;
+        place-items: center;
+        background: #ffffff80;
+      }
+      button,
+      select,
+      input[type="text"],
+      input[type="number"] {
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+      }
+      .panel-section-footer-button {
+        color: var(--text-color);
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+      }
+      .panel-section-footer-button.default {
+        color: var(--cr-card-background-color);
+        background-color: var(--bg-action);
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-content">
+      <div class="panel-section panel-section-formElements">
+        <div class="panel-formElements-item">
+          <div class="browser-style">
+            <input type="radio" id="op1" name="typeOfClock" value="digital" />
+            <label for="op1">Digital</label>
+
+            <input type="radio" id="op2" name="typeOfClock" value="analogue" />
+            <label for="op2">Analogue</label>
+          </div>
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="fontFamily">
+            Font family
+            <span class="panel-formElements-item-label-description">
+              Any of available system <a href="https://fonts.google.com" target="_blank">font</a>
+            </span>
+          </label>
+          <!-- <select name="fontFamily" id="fontFamily">
+            <option value="Digital-7 Mono, digital, monospace">
+              Digital-7 Mono
+            </option>
+            <option value="DS-Digital, digital, sans-serif" selected>
+              DS-Digital
+            </option>
+            <option value="Elektra, digital, sans-serif">Elektra</option>
+          </select> -->
+          <input
+            type="text"
+            value="Digital-7 Mono, digital, monospace"
+            placeholder="{font name}, digital, monospace"
+            id="fontFamily"
+            name="fontFamily"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="dayModeColor">
+            Day mode color
+            <span class="panel-formElements-item-label-description">
+              Color of clock digits or arrows
+            </span>
+          </label>
+          <input
+            type="color"
+            value="#7f7f7f"
+            id="dayModeColor"
+            name="dayModeColor"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="nightModeColor">
+            Night mode color
+            <span class="panel-formElements-item-label-description">
+              Night mode time: 22:00-10:00
+            </span>
+          </label>
+          <input
+            type="color"
+            value="#c87f7f"
+            id="nightModeColor"
+            name="nightModeColor"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="opacity">
+            Opacity
+            <span class="panel-formElements-item-label-description">
+              Arrow color opacity
+            </span>
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.5"
+            id="opacity"
+            name="opacity"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="interval">
+            Seconds arrow move interval
+            <span class="panel-formElements-item-label-description">
+              10-1000 milliseconds
+            </span>
+          </label>
+          <input
+            type="number"
+            min="10"
+            max="1000"
+            step="10"
+            value="70"
+            id="interval"
+            name="interval"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="showMilliseconds">
+            Show milliseconds
+            <span class="panel-formElements-item-label-description">
+              Depends on interval value
+            </span>
+          </label>
+          <input
+            type="checkbox"
+            checked
+            id="showMilliseconds"
+            name="showMilliseconds"
+          />
+        </div>
+
+        <div class="panel-formElements-item">
+          <label for="size">
+            Analogue clock face size
+            <span class="panel-formElements-item-label-description">
+              Diameter of clock face in pixels
+            </span>
+          </label>
+          <input type="number" value="400" id="size" name="size" />
+        </div>
+      </div>
+
+      <footer class="panel-section panel-section-footer">
+        <div
+          class="panel-section-footer-status"
+          id="status"
+          style="display: none"
+        ></div>
+        <button class="panel-section-footer-button" type="reset">Reset</button>
+        <button class="panel-section-footer-button default" type="submit">
+          Save
+        </button>
+      </footer>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>
