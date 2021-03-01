@@ -3,8 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>New Tab</title>
-    <meta name="description" content="">
+    <meta name="description" content="Replaces newtab with analogue clock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3367D6"/>
+    <link rel="canonical" href="chrome-extension://ngbpmpbhndfekjcppichnihdjffelkfh/background.html"/>
+    <link rel="apple-touch-icon" href="images/Icon.svg">
+    <link rel="manifest" href="manifest.webmanifest">
     <style>
       html, body {
         height: 100%;
@@ -14,14 +18,47 @@
         place-items: center;
         place-content: center;
       }
+      :root {
+        --text-color: #c87f7f;
+        --background-color: inherit;
+        --clock-width: 45vw;
+        --font-family: 'DS-Digital, digital, sans-serif';
+      }
+      input[type="time"] {
+        color: var(--text-color);
+        font-family: var(--font-family);
+        font-display: swap;
+        font-size: 15vw;
+        width: var(--clock-width);
+        background-clip: text;
+        -webkit-background-clip: text;
+        text-shadow: var(--text-color) 0px 0.01em 0.01em,
+          var(--text-color) 0px 0.02em 0.05em,
+          var(--text-color) 0px 0.04em 0.15em;
+        border: none;
+        padding: 0.1em;
+        overflow: visible;
+      }
+      ::-webkit-datetime-edit {
+        overflow: visible;
+      }
+      ::-webkit-calendar-picker-indicator {
+        display: none;
+      }
       @media (prefers-color-scheme: dark) {
-        body {
-          background: #121212;
+        :root {
+          --background-color: #121212;
+        }
+        body, input[type="time"] {
+          background: var(--background-color);
         }
       }
     </style>
   </head>
   <body>
+    <noscript>
+      <input type="time" value="12:00:00" step="1" format="00:00:00" readonly />
+    </noscript>
     <script src="background.js"></script>
   </body>
 </html>

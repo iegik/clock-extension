@@ -1,8 +1,8 @@
 (async () => {
-    const isNightMode = () => {
+    const isNightMode = (nightModeStart = 22, nightModeEnd = 10) => {
         const now = (new Date).getHours();
 
-        return (now >= 22 || now < 10);
+        return (now >= nightModeStart || now < nightModeEnd);
     }
 
     const memoize = (fn) => {
@@ -20,19 +20,17 @@
 
     const DigitalClock = {
         constructor({ color, fontFamily, showMilliseconds }) {
-            this.element = document.createElement('div');
+            this.element = document.createElement('input');
+            this.element.setAttribute('type', 'time');
+            this.element.setAttribute('readonly', true);
+            this.element.setAttribute('format', showMilliseconds ? 'hh:mm:ss.SSS' : 'hh:mm:ss');
+            this.element.setAttribute('step', 1);
             this.showMilliseconds = showMilliseconds;
-            Object.assign(this.element.style, {
-                color,
-                fontFamily,
-                fontDisplay: 'swap',
-                fontSize: `15vw`,
-                width: showMilliseconds ? `70vw` : `50vw`,
-                backgroundClip: 'text',
-                textShadow: `${color} 0px 0.01em 0.01em,
-                    ${color} 0px 0.02em 0.05em,
-                    ${color} 0px 0.04em 0.15em`,
-            });
+
+            let root = document.documentElement;
+            root.style.setProperty('--text-color', color);
+            root.style.setProperty('--font-family', fontFamily);
+            root.style.setProperty('--clock-width', showMilliseconds ? '80vw' : '45vw');
 
             return this;
         },
@@ -40,14 +38,14 @@
             const now = new Date();
             let time;
             if (this.showMilliseconds) {
-                time = `${now.toLocaleTimeString()}:${now.getMilliseconds()}`;
+                time = `${now.toLocaleTimeString()}.${now.getMilliseconds()}`;
             } else {
                 time = now.toLocaleTimeString();
             }
             this.update(time);
         },
         update(time) {
-            this.element.innerText = time;
+            this.element.value = time;
         },
     }
 
@@ -176,11 +174,16 @@
         interval: 70, // milliseconds to draw seconds arrow
         size: 400, // diameter of analogue clock
         showMilliseconds: true,
+        nightModeStart: 22,
+        nightModeEnd: 10
     }, resolve));
 
-    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, interval, size, opacity, showMilliseconds } = options;
+    try { window } catch (e) { return; }
 
-    const color = isNightMode()
+    // chrome.runtime.onInstalled.addListener(() => {
+    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, interval, size, opacity, showMilliseconds, nightModeStart, nightModeEnd } = options;
+
+    const color = isNightMode(nightModeStart, nightModeEnd)
         ? nightModeColor + Math.round(255 * opacity).toString(16)
         : dayModeColor + Math.round(255 * opacity).toString(16);
 
@@ -210,4 +213,5 @@
     document.addEventListener("visibilitychange", (event) => {
         started = event.target.visibilityState === 'visible';
     });
+    // });
 })()

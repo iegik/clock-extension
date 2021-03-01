@@ -2,7 +2,10 @@ const getRadioValue = (name) => {
   const current = [].find.call(document.getElementsByName(name), ({ checked }) => checked)
   return current ? current.value : null;
 }
-const setRadioValue = (name, value) => [].map.call(document.getElementsByName(name), (item) => item.checked = item.value === value);
+const setRadioValue = (name, value) => [].map.call(document.getElementsByName(name), (item) => {
+  console.log({ checked: item.checked, oldValue: item.value, newValue: value});
+  return item.checked = (item.value === value)
+});
 
 // Saves options to chrome.storage
 function save_options(...args) {
@@ -14,6 +17,9 @@ function save_options(...args) {
   const interval = parseInt(document.getElementsByName('interval')[0].value);
   const size = parseInt(document.getElementsByName('size')[0].value);
   const showMilliseconds = document.getElementsByName('showMilliseconds')[0].checked;
+  const nightModeStart = document.getElementsByName('nightModeStart')[0].value;
+  const nightModeEnd = document.getElementsByName('nightModeEnd')[0].value;
+
   chrome.storage.sync.set({
     typeOfClock,
     fontFamily,
@@ -23,6 +29,8 @@ function save_options(...args) {
     interval,
     size,
     showMilliseconds,
+    nightModeStart,
+    nightModeEnd
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -48,6 +56,8 @@ function restore_options() {
     interval: 70, // milliseconds to draw seconds arrow
     size: 400, // diameter of analogue clock
     showMilliseconds: true,
+    nightModeStart: 22,
+    nightModeEnd: 10,
   }, function(items) {
     setRadioValue('typeOfClock', items.typeOfClock);
     document.getElementsByName('fontFamily')[0].value = items.fontFamily;
@@ -57,6 +67,8 @@ function restore_options() {
     document.getElementsByName('interval')[0].value = items.interval;
     document.getElementsByName('size')[0].value = items.size;
     document.getElementsByName('showMilliseconds')[0].checked = items.showMilliseconds;
+    document.getElementsByName('nightModeStart')[0].value = items.nightModeStart;
+    document.getElementsByName('nightModeEnd')[0].value = items.nightModeEnd;
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);

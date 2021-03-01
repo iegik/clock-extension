@@ -43,9 +43,46 @@
         padding: 0.5rem 1rem;
         border-bottom: 1px solid var(--cr-separator-color);
         line-height: 1.54;
-        display: grid;
-        grid-template-columns: 1fr auto;
+        display: none;
+        grid-auto-flow: column;
+        justify-content: space-between;
       }
+
+      [name="typeOfClock"] {
+        display: none;
+      }
+      [for="typeOfClockDigital"],
+      [for="typeOfClockAnalogue"] {
+        font-weight: 500;
+        color: var(--cr-primary-text-color);
+        border-bottom: 2px solid transparent;
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+        display: inline-flex;
+      }
+
+      /* Digital tab */
+      [for="typeOfClockDigital"] {
+
+      }
+      input[value="digital"]:checked ~ [for="typeOfClockDigital"] {
+        border-bottom: 2px solid var(--bg-action);
+      }
+      input[value="digital"]:checked ~ .panel-formElements-item.digital {
+        display: grid;
+      }
+
+      /* Analogue tab */
+      [for="typeOfClockAnalogue"] {
+
+      }
+      input[value="analogue"]:checked ~ [for="typeOfClockAnalogue"] {
+        border-bottom: 2px solid var(--bg-action);
+      }
+      input[value="analogue"]:checked ~ .panel-formElements-item.analogue {
+        display: grid;
+      }
+
       .panel-formElements-item-label-description {
         display: block;
         color: var(--cr-secondary-text-color);
@@ -89,17 +126,133 @@
   <body>
     <div class="page-content">
       <div class="panel-section panel-section-formElements">
-        <div class="panel-formElements-item">
-          <div class="browser-style">
-            <input type="radio" id="op1" name="typeOfClock" value="digital" />
-            <label for="op1">Digital</label>
+        <input type="radio" id="typeOfClockDigital" name="typeOfClock" value="digital" />
+        <label for="typeOfClockDigital">Digital</label>
 
-            <input type="radio" id="op2" name="typeOfClock" value="analogue" />
-            <label for="op2">Analogue</label>
-          </div>
+        <input type="radio" id="typeOfClockAnalogue" name="typeOfClock" value="analogue" />
+        <label for="typeOfClockAnalogue">Analogue</label>
+
+        <div class="panel-formElements-item digital analogue">
+          <label for="nightModeStart">
+            Night mode
+            <span class="panel-formElements-item-label-description">
+              Start/end night mode hours
+            </span>
+          </label>
+          <span>
+            <input
+              type="number"
+              min="0"
+              max="23"
+              step="1"
+              value="22"
+              id="nightModeStart"
+              name="nightModeStart"
+            />
+            <input
+              type="number"
+              min="0"
+              max="23"
+              step="1"
+              value="10"
+              id="nightModeEnd"
+              name="nightModeEnd"
+            />
+          </span>
         </div>
 
-        <div class="panel-formElements-item">
+        <div class="panel-formElements-item digital analogue">
+          <label for="dayModeColor">
+            Day mode color
+            <span class="panel-formElements-item-label-description">
+              Color of clock digits or arrows
+            </span>
+          </label>
+          <input
+            type="color"
+            value="#7f7f7f"
+            id="dayModeColor"
+            name="dayModeColor"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital analogue">
+          <label for="nightModeColor">
+            Night mode color
+            <span class="panel-formElements-item-label-description">
+              Night mode time: 22:00-10:00
+            </span>
+          </label>
+          <input
+            type="color"
+            value="#c87f7f"
+            id="nightModeColor"
+            name="nightModeColor"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital analogue">
+          <label for="opacity">
+            Opacity
+            <span class="panel-formElements-item-label-description">
+              Arrow or digits color opacity
+            </span>
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.5"
+            id="opacity"
+            name="opacity"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital analogue">
+          <label for="interval">
+            Seconds arrow move interval
+            <span class="panel-formElements-item-label-description">
+              10-1000 milliseconds
+            </span>
+          </label>
+          <input
+            type="number"
+            min="10"
+            max="1000"
+            step="10"
+            value="70"
+            id="interval"
+            name="interval"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital analogue">
+          <label for="showMilliseconds">
+            Show milliseconds
+            <span class="panel-formElements-item-label-description">
+              Depends on interval value
+            </span>
+          </label>
+          <input
+            type="checkbox"
+            checked
+            id="showMilliseconds"
+            name="showMilliseconds"
+          />
+        </div>
+
+        <div class="panel-formElements-item analogue">
+          <label for="size">
+            Analogue clock face size
+            <span class="panel-formElements-item-label-description">
+              Diameter of clock face in pixels
+            </span>
+          </label>
+          <input type="number" value="400" id="size" name="size" />
+        </div>
+
+        <div class="panel-formElements-item digital">
           <label for="fontFamily">
             Font family
             <span class="panel-formElements-item-label-description">
@@ -124,96 +277,6 @@
           />
         </div>
 
-        <div class="panel-formElements-item">
-          <label for="dayModeColor">
-            Day mode color
-            <span class="panel-formElements-item-label-description">
-              Color of clock digits or arrows
-            </span>
-          </label>
-          <input
-            type="color"
-            value="#7f7f7f"
-            id="dayModeColor"
-            name="dayModeColor"
-          />
-        </div>
-
-        <div class="panel-formElements-item">
-          <label for="nightModeColor">
-            Night mode color
-            <span class="panel-formElements-item-label-description">
-              Night mode time: 22:00-10:00
-            </span>
-          </label>
-          <input
-            type="color"
-            value="#c87f7f"
-            id="nightModeColor"
-            name="nightModeColor"
-          />
-        </div>
-
-        <div class="panel-formElements-item">
-          <label for="opacity">
-            Opacity
-            <span class="panel-formElements-item-label-description">
-              Arrow color opacity
-            </span>
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value="0.5"
-            id="opacity"
-            name="opacity"
-          />
-        </div>
-
-        <div class="panel-formElements-item">
-          <label for="interval">
-            Seconds arrow move interval
-            <span class="panel-formElements-item-label-description">
-              10-1000 milliseconds
-            </span>
-          </label>
-          <input
-            type="number"
-            min="10"
-            max="1000"
-            step="10"
-            value="70"
-            id="interval"
-            name="interval"
-          />
-        </div>
-
-        <div class="panel-formElements-item">
-          <label for="showMilliseconds">
-            Show milliseconds
-            <span class="panel-formElements-item-label-description">
-              Depends on interval value
-            </span>
-          </label>
-          <input
-            type="checkbox"
-            checked
-            id="showMilliseconds"
-            name="showMilliseconds"
-          />
-        </div>
-
-        <div class="panel-formElements-item">
-          <label for="size">
-            Analogue clock face size
-            <span class="panel-formElements-item-label-description">
-              Diameter of clock face in pixels
-            </span>
-          </label>
-          <input type="number" value="400" id="size" name="size" />
-        </div>
       </div>
 
       <footer class="panel-section panel-section-footer">
