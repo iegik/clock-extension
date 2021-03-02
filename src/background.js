@@ -19,28 +19,52 @@
     const calculateSeconds = memoize(seconds => `rotate(${360 / 60 * seconds - 90}deg)`);
 
     const DigitalClock = {
-        constructor({ color, fontFamily, showMilliseconds }) {
+        constructor({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow }) {
+            const show = '2-digit';
+            const options = {
+                hour: show,
+                minute: show,
+            }
+            let format = 'hh:mm';
+            if (showSeconds) {
+                format += ':ss'
+                options.second = show;
+            }
+            if (showMilliseconds) {
+                format += '.SSS'
+            }
             this.element = document.createElement('input');
             this.element.setAttribute('type', 'time');
             this.element.setAttribute('readonly', true);
-            this.element.setAttribute('format', showMilliseconds ? 'hh:mm:ss.SSS' : 'hh:mm:ss');
-            this.element.setAttribute('step', 1);
+            this.element.setAttribute('format', format);
+            if (showSeconds || showMilliseconds) {
+                this.element.setAttribute('step', 1);
+            }
+            this.showSeconds = showSeconds;
             this.showMilliseconds = showMilliseconds;
+            this.options = options;
 
             let root = document.documentElement;
             root.style.setProperty('--text-color', color);
             root.style.setProperty('--font-family', fontFamily);
-            root.style.setProperty('--clock-width', showMilliseconds ? '80vw' : '45vw');
+            root.style.setProperty('--font-weight', fontWeight);
+            root.style.setProperty('--font-size', fontSize);
+            root.style.setProperty('--text-shadow', showShadow
+                ? `var(--text-color) 0px 0.01em 0.01em,
+                   var(--text-color) 0px 0.02em 0.05em,
+                   var(--text-color) 0px 0.04em 0.15em`
+                : 'none');
+            // root.style.setProperty('--clock-width', showMilliseconds ? '80vw' : '45vw');
+
+            this.draw();
 
             return this;
         },
         draw() {
             const now = new Date();
-            let time;
+            let time = now.toLocaleTimeString([], this.options);
             if (this.showMilliseconds) {
-                time = `${now.toLocaleTimeString()}.${now.getMilliseconds()}`;
-            } else {
-                time = now.toLocaleTimeString();
+                time += `.${now.getMilliseconds()}`;
             }
             this.update(time);
         },
@@ -168,12 +192,16 @@
     let options = await new Promise((resolve, reject) => chrome.storage.sync.get({
         typeOfClock: 'analogue',
         fontFamily: 'Digital-7 Mono, digital, monospace',
+        fontWeight: 500,
+        fontSize: '15vw',
         nightModeColor: '#c87f7f',
         dayModeColor: '#7f7f7f',
         opacity: 0.5,
         interval: 70, // milliseconds to draw seconds arrow
         size: 400, // diameter of analogue clock
+        showSeconds: true,
         showMilliseconds: true,
+        showShadow: false,
         nightModeStart: 22,
         nightModeEnd: 10
     }, resolve));
@@ -181,7 +209,7 @@
     try { window } catch (e) { return; }
 
     // chrome.runtime.onInstalled.addListener(() => {
-    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, interval, size, opacity, showMilliseconds, nightModeStart, nightModeEnd } = options;
+    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, fontWeight, fontSize, interval, size, opacity, showSeconds, showMilliseconds, showShadow, nightModeStart, nightModeEnd } = options;
 
     const color = isNightMode(nightModeStart, nightModeEnd)
         ? nightModeColor + Math.round(255 * opacity).toString(16)
@@ -189,10 +217,15 @@
 
     let started = true;
     const clock = typeOfClock === 'digital'
-        ? DigitalClock.constructor({ color, fontFamily, showMilliseconds })
+        ? DigitalClock.constructor({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow })
         : AnalogueClock.constructor({ color, size });
 
     document.body.appendChild(clock.element);
+
+    // hack to center not monospaced font
+    if (typeOfClock === 'digital') {
+        clock.element.style.width = `${clock.element.offsetWidth}px`
+    }
 
     const start = document.timeline.currentTime;
     const requestAnimationFrame1 = () => requestAnimationFrame(frame)

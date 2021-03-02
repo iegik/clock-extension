@@ -22,9 +22,15 @@
           --bg-action: #8ab4f8;
         }
       }
+      html, body {
+        height: 100vh;
+        margin: 0;
+      }
       body {
         padding: 0;
         margin: 0;
+        display: grid;
+        place-items: center;
       }
       body,
       select,
@@ -38,6 +44,11 @@
       }
       a {
         color: var(--text-color)
+      }
+      .page-content {
+        min-width: 30%;
+        min-width: 25rem;
+        width: max-content;
       }
       .panel-formElements-item {
         padding: 0.5rem 1rem;
@@ -228,6 +239,21 @@
         </div>
 
         <div class="panel-formElements-item digital">
+          <label for="showSeconds">
+            Show seconds
+            <span class="panel-formElements-item-label-description">
+              Depends on interval value
+            </span>
+          </label>
+          <input
+            type="checkbox"
+            checked
+            id="showSeconds"
+            name="showSeconds"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital">
           <label for="showMilliseconds">
             Show milliseconds
             <span class="panel-formElements-item-label-description">
@@ -239,6 +265,20 @@
             checked
             id="showMilliseconds"
             name="showMilliseconds"
+          />
+        </div>
+
+        <div class="panel-formElements-item digital">
+          <label for="showShadow">
+            Show shadow
+            <span class="panel-formElements-item-label-description">
+              Makes "glow" effect
+            </span>
+          </label>
+          <input
+            type="checkbox"
+            id="showShadow"
+            name="showShadow"
           />
         </div>
 
@@ -275,6 +315,41 @@
             id="fontFamily"
             name="fontFamily"
           />
+        </div>
+
+        <div class="panel-formElements-item digital">
+          <label for="size">
+            Font size
+            <span class="panel-formElements-item-label-description">
+              Size of the digits
+            </span>
+          </label>
+          <input type="text" value="15vw" id="fontSize" name="fontSize" />
+        </div>
+
+        <div class="panel-formElements-item digital">
+          <label for="fontWeight">
+            Font weight
+            <span class="panel-formElements-item-label-description">
+              weight of the font
+            </span>
+          </label>
+          <select name="fontWeight" id="fontWeight">
+            <option value="100">Thin (100)</option>
+            <option value="200">Extra-light (200)</option>
+            <option value="300">Light (300)</option>
+            <option value="400" selected>Regular (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600">Semi-bold (600)</option>
+            <option value="700">Bold (700)</option>
+          </select>
+          <!-- <input
+            type="text"
+            value="Digital-7 Mono, digital, monospace"
+            placeholder="{font name}, digital, monospace"
+            id="fontWeight"
+            name="fontWeight"
+          /> -->
         </div>
 
       </div>

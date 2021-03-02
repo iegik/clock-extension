@@ -16,7 +16,7 @@
 ![](screenshot3.png)
 
 - replaces [chrome://newtab]()
-- night mode 22:00-10:00
+- night mode
 - support systems dark / light theme switch
 - 400x400px
 - no leaks*
