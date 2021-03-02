@@ -11,7 +11,8 @@
     <link rel="manifest" href="manifest.webmanifest">
     <style>
       html, body {
-        height: 100%;
+        height: 100vh;
+        margin: 0;
       }
       body {
         display: grid;
@@ -21,20 +22,25 @@
       :root {
         --text-color: #c87f7f;
         --background-color: inherit;
-        --clock-width: 45vw;
+        /* --clock-width: 45vw; */
         --font-family: 'DS-Digital, digital, sans-serif';
+        --font-size: 15vw;
+        --font-weight: 400;
+        --text-shadow: var(--text-color) 0px 0.01em 0.01em,
+          var(--text-color) 0px 0.02em 0.05em,
+          var(--text-color) 0px 0.04em 0.15em;
       }
       input[type="time"] {
         color: var(--text-color);
         font-family: var(--font-family);
         font-display: swap;
-        font-size: 15vw;
-        width: var(--clock-width);
+        font-size: var(--font-size);
+        font-weight: var(--font-weight);
+        font-variant-numeric: tabular-nums;
+        width: auto;
         background-clip: text;
         -webkit-background-clip: text;
-        text-shadow: var(--text-color) 0px 0.01em 0.01em,
-          var(--text-color) 0px 0.02em 0.05em,
-          var(--text-color) 0px 0.04em 0.15em;
+        text-shadow: var(--text-shadow);
         border: none;
         padding: 0.1em;
         overflow: visible;
@@ -44,6 +50,19 @@
       }
       ::-webkit-calendar-picker-indicator {
         display: none;
+      }
+      button, a {
+        background: transparent;
+        border: none;
+        color: #cccccc22;
+        font-size: 2rem;
+        position: absolute;
+        bottom: 0.5rem;
+        right: 1rem;
+        text-decoration: none;
+      }
+      button:hover, a:hover {
+        color: #cccccc88;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -58,7 +77,9 @@
   <body>
     <noscript>
       <input type="time" value="12:00:00" step="1" format="00:00:00" readonly />
+      <p>Enable javascript to use this extension</p>
     </noscript>
+    <a href="options.html" target="_blank">⚙</button>
     <script src="background.js"></script>
   </body>
 </html>
