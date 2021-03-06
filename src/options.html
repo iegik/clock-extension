@@ -74,7 +74,7 @@
 
       /* Analogue tab */
       [for="typeOfClockAnalogue"] {
-
+        
       }
       input[value="analogue"]:checked ~ [for="typeOfClockAnalogue"] {
         border-bottom: 2px solid var(--bg-action);
@@ -249,7 +249,7 @@
               Diameter of clock face in pixels
             </span>
           </label>
-          <input type="number" value="400" id="size" name="size" />
+          <input type="number" value="400" id="size" name="size" min="100" />
         </div>
 
         <div class="panel-formElements-item digital">
