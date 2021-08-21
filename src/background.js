@@ -20,12 +20,15 @@
 
     const DigitalClock = {
         constructor({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow }) {
+            const type = 'time'
             const show = '2-digit';
+            const locales = 'nu';
             const options = {
                 hour: show,
                 minute: show,
+                hour12: false,
             }
-            let format = 'hh:mm';
+            let format = 'HH:mm';
             if (showSeconds) {
                 format += ':ss'
                 options.second = show;
@@ -34,7 +37,7 @@
                 format += '.SSS'
             }
             this.element = document.createElement('input');
-            this.element.setAttribute('type', 'time');
+            this.element.setAttribute('type', type);
             this.element.setAttribute('readonly', true);
             this.element.setAttribute('format', format);
             if (showSeconds || showMilliseconds) {
@@ -43,6 +46,7 @@
             this.showSeconds = showSeconds;
             this.showMilliseconds = showMilliseconds;
             this.options = options;
+            this.locales = locales;
 
             let root = document.documentElement;
             root.style.setProperty('--text-color', color);
@@ -62,7 +66,7 @@
         },
         draw() {
             const now = new Date();
-            let time = now.toLocaleTimeString([], this.options);
+            let time = now.toLocaleTimeString(this.locales, this.options);
             if (this.showMilliseconds) {
                 time += `.${now.getMilliseconds()}`;
             }
