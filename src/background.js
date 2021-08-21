@@ -219,7 +219,7 @@
         ? nightModeColor + Math.round(255 * opacity).toString(16)
         : dayModeColor + Math.round(255 * opacity).toString(16);
 
-    let started = true;
+    let stopped = document.hidden;
     const clock = typeOfClock === 'digital'
         ? DigitalClock.constructor({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow })
         : AnalogueClock.constructor({ color, size });
@@ -231,24 +231,25 @@
         clock.element.style.width = `${clock.element.offsetWidth}px`
     }
 
-    const start = document.timeline.currentTime;
     const requestAnimationFrame1 = () => requestAnimationFrame(frame)
     const frame = (time) => {
-        const elapsed = time - start;
-        const moment = Math.round(elapsed / interval);
-        clock.draw(moment);
-        const targetNext = (moment + 1) * interval + start;
-        started && setTimeout(requestAnimationFrame1, targetNext - performance.now());
+        if (stopped) return;
+        clock.draw();
+        setTimeout(requestAnimationFrame1, time + interval - performance.now());
     }
 
-    frame(start)
+    frame(document.timeline.currentTime)
 
     document.body.addEventListener('click', () => {
-        started = !started;
-        started && frame();
+        stopped = !stopped;
+        if (stopped) return;
+        frame(document.timeline.currentTime);
     });
-    document.addEventListener("visibilitychange", (event) => {
-        started = event.target.visibilityState === 'visible';
-    });
+    window.addEventListener('visibilitychange', () => {
+        if (stopped === document.hidden) return;
+        stopped = document.hidden;
+        if (stopped) return;
+        frame(document.timeline.currentTime);
+    }, false);
     // });
 })()
