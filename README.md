@@ -23,5 +23,6 @@
 - no ads
 - smooth clock arrow rotation
 - customizable
+- paused in background
 
 The [DS-Digital](https://www.dafont.com/ds-digital.font) font is used for digits

@@ -1,7 +1,7 @@
 {
   "name": "clock-extension",
   "short_name": "Clock on new tab",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Replaces newtab with analogue clock",
   "manifest_version": 3,
   "homepage_url": "https://iegik.github.io/clock-extension/",
