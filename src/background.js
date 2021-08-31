@@ -78,19 +78,19 @@
     }
 
     const AnalogueClock = {
-        createArrow({ element, offset, length, width, color, baseSize }) {
+        createArrow({ element, offset, length, thickness, color, baseSize }) {
             Object.assign(element.style, {
-                backgroundImage: `linear-gradient(90deg,
+                backgroundImage: `linear-gradient(0deg,
                     rgba(0,0,0,0) 0%,
                     rgba(0,0,0,0) ${offset * 100}%,
                     ${color} ${offset * 100}%,
                     ${color} ${(offset + length) * 100}%,
                     rgba(0,0,0,0) ${(offset + length) * 100}%
                 )`,
-                width: `${Math.round(baseSize)}px`,
-                height: `${Math.round(baseSize * width)}px`,
+                height: `${Math.round(baseSize)}px`,
+                width: `${Math.round(baseSize * thickness)}px`,
                 position: 'absolute',
-                top: `${Math.round((baseSize - baseSize * width)/2)}px`,
+                left: `${Math.round((baseSize - baseSize * thickness)/2)}px`,
                 transformOrigin: `center center`,
             });
         },
@@ -114,7 +114,7 @@
                 element: hoursArrow,
                 offset: 0.45,
                 length: 0.25,
-                width: 0.015,
+                thickness: 0.015,
                 color,
                 baseSize: size
             });
@@ -123,7 +123,7 @@
                 element: minutesArrow,
                 offset: 0.45,
                 length: 0.40,
-                width: 0.01,
+                thickness: 0.01,
                 color,
                 baseSize: size
             });
@@ -132,7 +132,7 @@
                 element: secondsArrow,
                 offset: 0.45,
                 length: 0.50,
-                width: 0.005,
+                thickness: 0.005,
                 color,
                 baseSize: size
             });
@@ -143,7 +143,7 @@
                     element: hourDot,
                     offset: 0,
                     length: 0.01,
-                    width: 0.01,
+                    thickness: 0.01,
                     color,
                     baseSize: size
                 });
@@ -158,7 +158,7 @@
                     element: hourDot,
                     offset: 0,
                     length: 0.005,
-                    width: 0.005,
+                    thickness: 0.005,
                     color,
                     baseSize: size
                 });
@@ -238,7 +238,7 @@
         setTimeout(requestAnimationFrame1, time + interval - performance.now());
     }
 
-    frame(document.timeline.currentTime)
+    // frame(document.timeline.currentTime)
 
     document.body.addEventListener('click', () => {
         stopped = !stopped;
