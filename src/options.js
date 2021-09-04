@@ -1,3 +1,5 @@
+const storage = chrome?.storage || storage;
+
 const getRadioValue = (name) => {
   const current = [].find.call(document.getElementsByName(name), ({ checked }) => checked)
   return current ? current.value : null;
@@ -7,7 +9,7 @@ const setRadioValue = (name, value) => [].map.call(document.getElementsByName(na
   return item.checked = (item.value === value)
 });
 
-// Saves options to chrome.storage
+// Saves options to storage
 function save_options(...args) {
   const typeOfClock = getRadioValue('typeOfClock');
   const fontFamily = document.getElementsByName('fontFamily')[0].value;
@@ -24,7 +26,7 @@ function save_options(...args) {
   const nightModeStart = document.getElementsByName('nightModeStart')[0].value;
   const nightModeEnd = document.getElementsByName('nightModeEnd')[0].value;
 
-  chrome.storage.sync.set({
+  storage.sync.set({
     typeOfClock,
     fontFamily,
     fontWeight,
@@ -52,10 +54,10 @@ function save_options(...args) {
 }
 
 // Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
+// stored in storage.
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
-  chrome.storage.sync.get({
+  storage.sync.get({
     typeOfClock: 'analogue',
     fontFamily: 'Digital-7 Mono, digital, monospace',
     fontWeight: 500,
