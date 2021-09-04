@@ -57,18 +57,28 @@
         setTimeout(requestAnimationFrame1, time + interval - performance.now());
     }
 
-    // frame(document.timeline.currentTime)
+    const toggleClock = (hidden) => {
+        // TIP: To avoid conflict blur and click (mouseup) events
+        // 1. change click to mousedown
+        // 2. wrap action into setTimeout
+        setTimeout(() => {
+            if (stopped === hidden) return;
+            stopped = hidden === true;
+            if (stopped) return;
+            frame(document.timeline.currentTime);
+        })
+    }
 
-    document.body.addEventListener('click', () => {
-        stopped = !stopped;
-        if (stopped) return;
-        frame(document.timeline.currentTime);
-    });
-    window.addEventListener('visibilitychange', () => {
-        if (stopped === document.hidden) return;
-        stopped = document.hidden;
-        if (stopped) return;
-        frame(document.timeline.currentTime);
-    }, false);
+    // TIP: Always check document.readyState when waiting DOMContentLoaded
+    // https://stackoverflow.com/questions/43233115/chrome-content-scripts-arent-working-domcontentloaded-listener-does-not-execut
+    if(document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', toggleClock);
+    } else {
+        toggleClock();
+    }
+    window.addEventListener('visibilitychange', () => { toggleClock(document.hidden); }, false);
+    window.addEventListener('blur', () => { toggleClock(true); })
+    window.addEventListener('focus', () => { toggleClock(false); })
+    document.body.addEventListener('mousedown', () => { toggleClock(!stopped); });
     // });
 })()
