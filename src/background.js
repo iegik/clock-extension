@@ -7,9 +7,6 @@
         return (now >= nightModeStart || now < nightModeEnd);
     }
 
-    const { default:DigitalClock } = await import('./digital-clock.js');
-    const { default:AnalogueClock } = await import('./analogue-clock.js');
-
     const defaultOptions = {
         typeOfClock: 'analogue',
         fontFamily: 'Digital-7 Mono, digital, monospace',
@@ -38,9 +35,14 @@
         : dayModeColor + Math.round(255 * opacity).toString(16);
 
     let stopped = document.hidden;
-    const Clock = typeOfClock === 'digital'
-        ? DigitalClock
-        : AnalogueClock
+    let Clock
+    if (typeOfClock === 'digital') {
+        const { default:DigitalClock } = await import('./digital-clock.js');
+        Clock = DigitalClock
+    } else {
+        const { default:AnalogueClock } = await import('./analogue-clock.js');
+        Clock = AnalogueClock
+    }
 
     const clock = new Clock({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow, color, size })
 
