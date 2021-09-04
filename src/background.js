@@ -10,7 +10,7 @@
     const { default:DigitalClock } = await import('./digital-clock.js');
     const { default:AnalogueClock } = await import('./analogue-clock.js');
 
-    let options = await new Promise((resolve, reject) => storage.sync.get({
+    const defaultOptions = {
         typeOfClock: 'analogue',
         fontFamily: 'Digital-7 Mono, digital, monospace',
         fontWeight: 500,
@@ -25,7 +25,8 @@
         showShadow: false,
         nightModeStart: 22,
         nightModeEnd: 10
-    }, resolve)) || {};
+    }
+    let options = await new Promise((resolve, reject) => storage.sync.get(defaultOptions, resolve)) || defaultOptions;
 
     try { window } catch (e) { return; }
 
@@ -76,6 +77,8 @@
     } else {
         toggleClock();
     }
+    // Detecting loosing visibility on Alt+Tab
+    // https://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active?rq=1
     window.addEventListener('visibilitychange', () => { toggleClock(document.hidden); }, false);
     window.addEventListener('blur', () => { toggleClock(true); })
     window.addEventListener('focus', () => { toggleClock(false); })
