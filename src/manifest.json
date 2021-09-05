@@ -17,8 +17,7 @@
     "newtab": "background.html"
   },
   "options_ui": {
-    "page": "options.html",
-    "style": true
+    "page": "options.html"
   },
   "permissions": [
     "storage"
@@ -28,7 +27,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "9b914f44-449a-924e-9a9d-84e0a33518cf",
+      "id": "{5f04c647-da4a-4ae0-8a9b-cfc9df81a2d0}",
       "strict_min_version": "42.0"
     }
   }
