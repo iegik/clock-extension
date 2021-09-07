@@ -28,14 +28,14 @@ class AnalogueClock {
             transformOrigin: `center center`,
         });
     }
-    constructor({ color, size, showMilliseconds }) {
-        this.element = document.createElement('div');
+    constructor({ element, color, size, showMilliseconds }) {
+        this.element = element;
         this.hoursArrow = document.createElement('div');
         this.minutesArrow = document.createElement('div');
         this.secondsArrow = document.createElement('div');
         this.showMilliseconds = showMilliseconds;
 
-        const { element, hoursArrow, minutesArrow, secondsArrow, createArrow } = this;
+        const { hoursArrow, minutesArrow, secondsArrow, createArrow } = this;
 
         Object.assign(element.style, {
             position: 'relative',

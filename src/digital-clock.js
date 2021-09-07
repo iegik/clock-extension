@@ -1,5 +1,5 @@
 class DigitalClock {
-    constructor({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow }) {
+    constructor({ element, color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow }) {
         const type = 'time'
         const show = '2-digit';
         const locales = 'nu';
@@ -16,12 +16,12 @@ class DigitalClock {
         if (showMilliseconds) {
             format += '.SSS'
         }
-        this.element = document.createElement('input');
-        this.element.setAttribute('type', type);
-        this.element.setAttribute('readonly', true);
-        this.element.setAttribute('format', format);
+        this.element = element;
+        element.setAttribute('type', type);
+        element.setAttribute('readonly', true);
+        element.setAttribute('format', format);
         if (showSeconds || showMilliseconds) {
-            this.element.setAttribute('step', 1);
+            element.setAttribute('step', 1);
         }
         this.showSeconds = showSeconds;
         this.showMilliseconds = showMilliseconds;

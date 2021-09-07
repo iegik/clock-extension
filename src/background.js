@@ -8,6 +8,7 @@
     }
 
     const defaultOptions = {
+        root: '#clock'
         typeOfClock: 'analogue',
         fontFamily: 'Digital-7 Mono, digital, monospace',
         fontWeight: 500,
@@ -28,7 +29,7 @@
     try { window } catch (e) { return; }
 
     // chrome.runtime.onInstalled.addListener(() => {
-    const { typeOfClock, nightModeColor, dayModeColor, fontFamily, fontWeight, fontSize, interval, size, opacity, showSeconds, showMilliseconds, showShadow, nightModeStart, nightModeEnd } = options;
+    const { root, typeOfClock, nightModeColor, dayModeColor, fontFamily, fontWeight, fontSize, interval, size, opacity, showSeconds, showMilliseconds, showShadow, nightModeStart, nightModeEnd } = options;
 
     const color = isNightMode(nightModeStart, nightModeEnd)
         ? nightModeColor + Math.round(255 * opacity).toString(16)
@@ -44,9 +45,8 @@
         Clock = AnalogueClock
     }
 
-    const clock = new Clock({ color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow, color, size })
-
-    document.body.appendChild(clock.element);
+    const element = document.querySelector(root)
+    const clock = new Clock({ element, color, fontFamily, fontWeight, fontSize, showSeconds, showMilliseconds, showShadow, color, size })
 
     // hack to center not monospaced font
     if (typeOfClock === 'digital') {
