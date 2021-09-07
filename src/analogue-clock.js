@@ -19,7 +19,7 @@ class AnalogueClock {
         this.secondsArrow = secondsArrow;
         this.showMilliseconds = showMilliseconds;
 
-        element.style.setProperty('--color', color)
+        this.setProperty('--color', color)
 
         return this;
     }
@@ -34,11 +34,11 @@ class AnalogueClock {
     }
     update(hours, minutes, seconds) {
         const { hoursArrow, minutesArrow, secondsArrow } = this;
-        this.updateArrow('--transform-hours', hours)
-        this.updateArrow('--transform-minutes', minutes)
-        this.updateArrow('--transform-seconds', seconds)
+        this.setProperty('--transform-hours', hours)
+        this.setProperty('--transform-minutes', minutes)
+        this.setProperty('--transform-seconds', seconds)
     }
-    updateArrow(prop, value) {
+    setProperty(prop, value) {
         const { element } = this
         if (element.style.getPropertyValue(prop) === value) return;
         element.style.setProperty(prop, value)
