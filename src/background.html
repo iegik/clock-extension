@@ -10,18 +10,10 @@
     <link rel="apple-touch-icon" href="images/Icon.svg">
     <link rel="manifest" href="manifest.webmanifest">
     <style>
-      html, body {
-        height: 100vh;
-        margin: 0;
-      }
-      body {
-        display: grid;
-        place-items: center;
-        place-content: center;
-      }
       :root {
+        color-scheme: light dark;
         --text-color: #c87f7f;
-        --background-color: inherit;
+        --background-color: Canvas;
         /* --clock-width: 45vw; */
         --font-family: 'DS-Digital, digital, sans-serif';
         --font-size: 15vw;
@@ -29,6 +21,18 @@
         --text-shadow: var(--text-color) 0px 0.01em 0.01em,
           var(--text-color) 0px 0.02em 0.05em,
           var(--text-color) 0px 0.04em 0.15em;
+      }
+      html, body {
+        height: 100vh;
+        margin: 0;
+      }
+      body, input[type="time"] {
+        background-color: var(--background-color);
+      }
+      body {
+        display: grid;
+        place-items: center;
+        place-content: center;
       }
       input[type="time"] {
         color: var(--text-color);
@@ -63,14 +67,6 @@
       }
       button:hover, a:hover {
         color: #cccccc88;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --background-color: #121212;
-        }
-        body, input[type="time"] {
-          background: var(--background-color);
-        }
       }
     </style>
   </head>
