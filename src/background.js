@@ -1,5 +1,6 @@
 (async () => {
     const storage = chrome?.storage || storage;
+    const idle = chrome?.idle || window.browser?.idle;
 
     const isNightMode = (nightModeStart = 22, nightModeEnd = 10) => {
         const now = (new Date).getHours();
@@ -43,12 +44,12 @@
     let Clock
     const root = document.querySelector('#root')
     if (typeOfClock === 'digital') {
+        if (root) root.innerHTML = '<input id="clock" type="time" value="12:00:00" step="1" format="00:00:00" readonly />'
         const { default:DigitalClock } = await import('./digital-clock.js');
-        root.innerHTML = '<input id="clock" type="time" value="12:00:00" step="1" format="00:00:00" readonly />'
         Clock = DigitalClock
     } else {
+        if (root) root.innerHTML = atob(analogueTheme)
         const { default:AnalogueClock } = await import('./analogue-clock.js');
-        root.innerHTML = atob(analogueTheme)
         Clock = AnalogueClock
     }
 
@@ -95,5 +96,6 @@
     window.addEventListener('blur', () => { toggleClock(true); })
     window.addEventListener('focus', () => { toggleClock(false); })
     document.body.addEventListener('mousedown', () => { toggleClock(!stopped); });
+    idle.onStateChanged.addListener(state => { toggleClock(state !== 'active'); });
     // });
 })()

@@ -40,6 +40,7 @@ class AnalogueClock {
     }
     setProperty(prop, value) {
         const { element } = this
+        if (!element) return
         if (element.style.getPropertyValue(prop) === value) return;
         element.style.setProperty(prop, value)
     }
