@@ -20,6 +20,7 @@ function save_options(...args) {
   const opacity = parseFloat(document.getElementsByName('opacity')[0].value);
   const interval = parseInt(document.getElementsByName('interval')[0].value);
   const size = parseInt(document.getElementsByName('size')[0].value);
+  const analogueTheme = document.getElementsByName('analogueTheme')[0].value;
   const showSeconds = document.getElementsByName('showSeconds')[0].checked;
   const showMilliseconds = document.getElementsByName('showMilliseconds')[0].checked;
   const showShadow = document.getElementsByName('showShadow')[0].checked;
@@ -36,6 +37,7 @@ function save_options(...args) {
     opacity,
     interval,
     size,
+    analogueTheme,
     showSeconds,
     showMilliseconds,
     showShadow,
@@ -67,6 +69,7 @@ function restore_options() {
     opacity: 0.5,
     interval: 70, // milliseconds to draw seconds arrow
     size: 400, // diameter of analogue clock
+    analogueTheme: 'data/theme.html',
     showSeconds: true,
     showMilliseconds: true,
     showShadow: false,
@@ -82,6 +85,7 @@ function restore_options() {
     document.getElementsByName('opacity')[0].value = items.opacity;
     document.getElementsByName('interval')[0].value = items.interval;
     document.getElementsByName('size')[0].value = items.size;
+    document.getElementsByName('analogueTheme')[0].value = items.analogueTheme;
     document.getElementsByName('showSeconds')[0].checked = items.showSeconds;
     document.getElementsByName('showMilliseconds')[0].checked = items.showMilliseconds;
     document.getElementsByName('showShadow')[0].checked = items.showShadow;

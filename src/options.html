@@ -293,6 +293,20 @@
           <input type="number" value="400" id="size" name="size" min="100" />
         </div>
 
+        <div class="panel-formElements-item analogue">
+          <label for="size">
+            Analogue clock face theme
+            <span class="panel-formElements-item-label-description">
+              Choose from list, use Base64 or plain SVG or HTML
+            </span>
+          </label>
+          <input type="text" list="themes" value="data/theme.html" id="analogueTheme" name="analogueTheme" />
+          <datalist id="themes">
+            <option value="data/theme.html">theme.html</option>
+            <option value="data/theme.svg">theme.svg</option>
+          </datalist>
+        </div>
+
         <div class="panel-formElements-item digital">
           <label for="fontFamily">
             Font family

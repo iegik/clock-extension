@@ -7,20 +7,22 @@ const memoize = (fn) => {
     }
 }
 
-const calculateHours = memoize(hours => `rotate(${360 / 12 * hours - 90}deg)`);
-const calculateMinutes = memoize(minutes => `rotate(${360 / 60 * minutes - 90}deg)`);
-const calculateSeconds = memoize(seconds => `rotate(${360 / 60 * seconds - 90}deg)`);
+const calculateHours = memoize(hours => `rotate(${(360 / 12 * hours).toFixed(1)}deg)`);
+const calculateMinutes = memoize(minutes => `rotate(${(360 / 60 * minutes).toFixed(1)}deg)`);
+const calculateSeconds = memoize(seconds => `rotate(${(360 / 60 * seconds).toFixed(1)}deg)`);
 
 class AnalogueClock {
-    constructor({ element, color, size, showMilliseconds, hoursArrow, minutesArrow, secondsArrow }) {
+    constructor({ element, color, size, showSeconds, hoursArrow, minutesArrow, secondsArrow }) {
         this.element = element;
         this.hoursArrow = hoursArrow;
         this.minutesArrow = minutesArrow;
         this.secondsArrow = secondsArrow;
-        this.showMilliseconds = showMilliseconds;
+        this.showSeconds = showSeconds;
 
-        this.setProperty('--color', color)
-
+        if (!this.showSeconds) {
+            this.secondsArrow.style.display = 'none';
+        }
+        if (element) element.setAttribute('color', color)
         return this;
     }
     draw() {
@@ -34,15 +36,15 @@ class AnalogueClock {
     }
     update(hours, minutes, seconds) {
         const { hoursArrow, minutesArrow, secondsArrow } = this;
-        this.setProperty('--transform-hours', hours)
-        this.setProperty('--transform-minutes', minutes)
-        this.setProperty('--transform-seconds', seconds)
+        this.setProperty('hours', hours)
+        this.setProperty('minutes', minutes)
+        if(this.showSeconds) this.setProperty('seconds', seconds)
     }
     setProperty(prop, value) {
         const { element } = this
         if (!element) return
-        if (element.style.getPropertyValue(prop) === value) return;
-        element.style.setProperty(prop, value)
+        if (this[`${prop}Arrow`].style.transform === value) return;
+        this[`${prop}Arrow`].style.transform = value
     }
 }
 

@@ -1,0 +1,137 @@
+<div id="clock" color="currentColor" style="position: relative; border-radius: 50%; width: 400px; height: 400px">
+  <style>
+    #clock div {
+      height: 400px;
+
+      /* dots for seconds,minutes */
+      width: 2px;
+      left: 199px;
+      position: absolute;
+      transform-origin: center center;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 0%,
+        var(--color) 0%,
+        var(--color) 0.5%,
+        rgba(0, 0, 0, 0) 0.5%
+      )
+    }
+    #clock div:nth-child(-n+13) {
+      /* dots for minutes */
+      width: 4px;
+      left: 198px;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 0%,
+        var(--color) 0%,
+        var(--color) 1%,
+        rgba(0, 0, 0, 0) 1%
+      );
+    }
+
+    #clock #hoursArrow {
+      /* hours */
+      width: 6px;
+      left: 197px;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 45%,
+        var(--color) 45%,
+        var(--color) 70%,
+        rgba(0, 0, 0, 0) 70%
+      );
+    }
+    #clock #minutesArrow {
+      /* minutes */
+      width: 4px;
+      left: 198px;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 45%,
+        var(--color) 45%,
+        var(--color) 85%,
+        rgba(0, 0, 0, 0) 85%
+      );
+    }
+    #clock #secondsArrow {
+      /* seconds */
+      width: 2px;
+      left: 199px;
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 45%,
+        var(--color) 45%,
+        var(--color) 95%,
+        rgba(0, 0, 0, 0) 95%
+      );
+    }
+  </style>
+  <div style="transform: rotate(-90deg);"></div>
+  <div style="transform: rotate(-60deg);"></div>
+  <div style="transform: rotate(-30deg);"></div>
+  <div style="transform: rotate(0deg);"></div>
+  <div style="transform: rotate(30deg);"></div>
+  <div style="transform: rotate(60deg);"></div>
+  <div style="transform: rotate(90deg);"></div>
+  <div style="transform: rotate(120deg);"></div>
+  <div style="transform: rotate(150deg);"></div>
+  <div style="transform: rotate(180deg);"></div>
+  <div style="transform: rotate(210deg);"></div>
+  <div style="transform: rotate(240deg);"></div>
+  <div style="transform: rotate(-84deg);"></div>
+  <div style="transform: rotate(-78deg);"></div>
+  <div style="transform: rotate(-72deg);"></div>
+  <div style="transform: rotate(-66deg);"></div>
+  <div style="transform: rotate(-54deg);"></div>
+  <div style="transform: rotate(-48deg);"></div>
+  <div style="transform: rotate(-42deg);"></div>
+  <div style="transform: rotate(-36deg);"></div>
+  <div style="transform: rotate(-24deg);"></div>
+  <div style="transform: rotate(-18deg);"></div>
+  <div style="transform: rotate(-12deg);"></div>
+  <div style="transform: rotate(-6deg);"></div>
+  <div style="transform: rotate(6deg);"></div>
+  <div style="transform: rotate(12deg);"></div>
+  <div style="transform: rotate(18deg);"></div>
+  <div style="transform: rotate(24deg);"></div>
+  <div style="transform: rotate(36deg);"></div>
+  <div style="transform: rotate(42deg);"></div>
+  <div style="transform: rotate(48deg);"></div>
+  <div style="transform: rotate(54deg);"></div>
+  <div style="transform: rotate(66deg);"></div>
+  <div style="transform: rotate(72deg);"></div>
+  <div style="transform: rotate(78deg);"></div>
+  <div style="transform: rotate(84deg);"></div>
+  <div style="transform: rotate(96deg);"></div>
+  <div style="transform: rotate(102deg);"></div>
+  <div style="transform: rotate(108deg);"></div>
+  <div style="transform: rotate(114deg);"></div>
+  <div style="transform: rotate(126deg);"></div>
+  <div style="transform: rotate(132deg);"></div>
+  <div style="transform: rotate(138deg);"></div>
+  <div style="transform: rotate(144deg);"></div>
+  <div style="transform: rotate(156deg);"></div>
+  <div style="transform: rotate(162deg);"></div>
+  <div style="transform: rotate(168deg);"></div>
+  <div style="transform: rotate(174deg);"></div>
+  <div style="transform: rotate(186deg);"></div>
+  <div style="transform: rotate(192deg);"></div>
+  <div style="transform: rotate(198deg);"></div>
+  <div style="transform: rotate(204deg);"></div>
+  <div style="transform: rotate(216deg);"></div>
+  <div style="transform: rotate(222deg);"></div>
+  <div style="transform: rotate(228deg);"></div>
+  <div style="transform: rotate(234deg);"></div>
+  <div style="transform: rotate(246deg);"></div>
+  <div style="transform: rotate(252deg);"></div>
+  <div style="transform: rotate(258deg);"></div>
+  <div style="transform: rotate(264deg);"></div>
+  <div id="hoursArrow" style="transform: var(--transform-hours);"></div>
+  <div id="minutesArrow" style="transform: var(--transform-minutes);"></div>
+  <div id="secondsArrow" style="transform: var(--transform-seconds);"></div>
+</div>
